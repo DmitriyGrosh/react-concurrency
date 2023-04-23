@@ -67,8 +67,6 @@ const useDebugConcurrent = ({
 		isFirstRenderRef.current = false;
 	}
 
-	console.log('==========>probeRef.current', probeRef.current);
-	console.log('==========>deferredProbe', deferredProbe);
 	const isLowPriority = probeRef.current === deferredProbe && !isFirstRender;
 
 	if (isLowPriority) {
@@ -86,7 +84,6 @@ const useDebugConcurrent = ({
 	}
 
 	useLayoutEffect(() => {
-		console.log('==========>isLowPriority', isLowPriority);
 		if (isLowPriority) {
 			renderStateRef.current = 'Low End';
 			onLowPriorityEnd?.();

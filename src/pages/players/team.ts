@@ -1,4 +1,4 @@
-const team = [
+export const players = [
   {
     "id": 882,
     "name": "David de Gea",

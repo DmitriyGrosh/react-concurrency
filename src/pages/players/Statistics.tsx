@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useState } from 'react';
+import {FC, memo, useEffect, useLayoutEffect, useState} from 'react';
 import { IPlayerStatistics } from './interfaces';
 import { getPlayerStatistics } from './resource';
 import { sleep } from '../../lib/sleep';
@@ -7,11 +7,22 @@ interface IStatistics {
   id: number;
 }
 
+const addFrame = (value: string) => {
+  const logs = document.getElementById('logs');
+  const span = document.createElement('span');
+
+  span.textContent = value;
+  // span.className = `logs__${type}`;
+
+  logs?.appendChild(span);
+};
+
 export const Statistics: FC<IStatistics> = memo(({ id }) => {
   const [playerStatistics, setPlayerStatistics] = useState<IPlayerStatistics[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    console.log('==========>effect', id);
     const initData = async () => {
       setIsLoading(true);
       const data = await getPlayerStatistics(id, 2022);
@@ -20,12 +31,13 @@ export const Statistics: FC<IStatistics> = memo(({ id }) => {
     };
 
     initData().finally(() => setIsLoading(false));
+    // addFrame(`use effect statistics ${id}`)
   }, [id]);
 
   sleep(1000);
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Loading Statistics...</div>
   }
 
   return (

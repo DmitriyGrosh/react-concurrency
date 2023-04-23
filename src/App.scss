@@ -91,6 +91,20 @@
   width: 100%;
 }
 
-.logs {
+.three-width {
+  width: 60%;
+}
 
+.logs {
+  &__high {
+    color: green;
+  }
+
+  &__low {
+    color: teal;
+  }
+
+  &__interrupted {
+    color: red;
+  }
 }

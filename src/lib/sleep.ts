@@ -1,5 +1,6 @@
-export const sleep = (ms: number) => {
+export const sleep = (ms: number, value?: string) => {
+	console.log('==========>sleep', value);
 	const start = performance.now();
 
-	while (performance.now() - start < ms);
+	while (performance.now() - start < ms) {};
 };

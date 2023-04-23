@@ -1,22 +1,27 @@
-import {memo, FC, useEffect, useState, useTransition, PropsWithChildren} from 'react';
+import {
+  memo,
+  FC,
+  useEffect,
+  useState,
+  useTransition,
+} from 'react';
 import { useParams } from 'react-router-dom';
-import { Statistics } from './Statistics';
 
 import { IGetPlayers, IPlayer } from './interfaces';
 import { getPlayers } from './resource';
 
+import { Statistics } from './Statistics';
+import { Logs } from '../../widgets/header/Logs';
+
+
 import './Players.scss';
-import {useDebug} from "../../lib/useDebug";
-import {Logs} from "../../widgets/header/Logs";
 
-interface IPlayerList extends PropsWithChildren {
-  selectedPlayer: IPlayer | null;
-  handlePlayerClick: (player: IPlayer) => void;
-}
-
-export const PlayersList: FC<IPlayerList> = memo(({ selectedPlayer, handlePlayerClick, children }) => {
+export const PlayersList: FC = memo(() => {
   const { type } = useParams();
+  const [lowPriorityPlayer, setLowPriorityPlayer] = useState<IPlayer | null>(null);
+  const [highPriorityPlayer, setHighPriorityPlayer] = useState<IPlayer | null>(null);
   const [playersArray, setPlayersArray] = useState<IGetPlayers[]>([]);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const initData = async () => {
@@ -28,37 +33,36 @@ export const PlayersList: FC<IPlayerList> = memo(({ selectedPlayer, handlePlayer
     initData();
   }, []);
 
-  // const handlePlayerClick = (player: IPlayer) => {
-  //   if (type === 'sync') {
-  //     // blocking rendering
-  //     setSelectedPlayer(player);
-  //   }
-  //
-  //   if (type === 'async') {
-  //     // adapt
-  //     setTimeout(() => {
-  //       setSelectedPlayer(player);
-  //     }, 0);
-  //   }
-  //
-  //   if (type === 'concurrent') {
-  //     setSyncSelectedPlayer(player);
-  //     // concurrent rendering
-  //     startTransition(() => {
-  //       setSelectedPlayer(player);
-  //     });
-  //   }
-  // };
+  const handlePlayerClick = (player: IPlayer) => {
+    if (type === 'sync') {
+      // blocking rendering
+      setLowPriorityPlayer(player);
+    }
 
-  // for autocomplete
-  // sleep(1000);
+    if (type === 'async') {
+      // adapt
+      setTimeout(() => {
+        setLowPriorityPlayer(player);
+      }, 0);
+    }
+
+    if (type === 'concurrent') {
+      setHighPriorityPlayer(player);
+
+      // concurrent rendering
+      startTransition(() => {
+        setLowPriorityPlayer(player);
+      });
+    }
+  };
 
   return (
     <div className="flex max-width">
+      <Logs filter={highPriorityPlayer?.name} delayedFilter={lowPriorityPlayer?.name} />
       <div className="players-list max-width">
         <ul className="players-list__menu">
           {playersArray?.map(({players}) => players.map((player) => {
-            const isSelected = selectedPlayer && selectedPlayer.id === player.id;
+            const isSelected = lowPriorityPlayer && lowPriorityPlayer.id === player.id;
 
             return (
               <li key={player.id}>
@@ -73,9 +77,8 @@ export const PlayersList: FC<IPlayerList> = memo(({ selectedPlayer, handlePlayer
             );
           }))}
         </ul>
-        {selectedPlayer ? <Statistics id={selectedPlayer.id} /> : <div>Not selected Player</div>}
+        {lowPriorityPlayer ? <Statistics id={lowPriorityPlayer.id} /> : <div>Not selected Player</div>}
       </div>
-      {children}
     </div>
   );
 });

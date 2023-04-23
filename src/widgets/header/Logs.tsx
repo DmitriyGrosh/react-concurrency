@@ -1,47 +1,13 @@
-import React, {FC, memo, useCallback, useDeferredValue, useLayoutEffect, useRef, useState} from 'react';
-
-import { useDebug } from '../../lib/useDebug';
-import {IPlayer} from "../../pages/players/interfaces";
+import React, {
+	FC,
+	useDeferredValue,
+	useLayoutEffect,
+	useRef,
+} from 'react';
 
 interface ILogs {
 	filter?: string;
 	delayedFilter?: string;
-}
-
-// export const Logs = memo(({ filter, delayedFilter }: ILogs) => {
-// 	useDebug({ filter, delayedFilter });
-//
-// 	return (
-// 		<div className="logs">
-//
-// 		</div>
-// 	);
-// });
-
-const useActualRef = (value: any) => {
-	const [ref, setRef] = useState(value);
-
-	const setCallbackRef = useCallback((actualValue: any) => {
-		console.log('==========>1', 1);
-		setRef(actualValue);
-	}, []);
-
-	return [ref, setCallbackRef];
-};
-
-function useEvent(handler: any) {
-	const handlerRef = useRef<any>(null);
-
-	// In a real implementation, this would run before layout effects
-	useLayoutEffect(() => {
-		handlerRef.current = handler;
-	});
-
-	return useCallback((...args: any[]) => {
-		// In a real implementation, this would throw if called during render
-		const fn = handlerRef.current;
-		return fn(...args);
-	}, []);
 }
 
 enum Probe {
@@ -50,12 +16,13 @@ enum Probe {
 	High = 'High',
 }
 
+type TLog = 'high' | 'low' | 'interrupted';
+
 export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 	const isFirstRenderRef = useRef(true);
 	const isFirstRender = isFirstRenderRef.current;
 
 	const probeRef = useRef(Probe.Start);
-	// const [probeRef, setProebRef] = useActualRef({});
 	const deferredProbe = useDeferredValue(probeRef.current);
 
 	const renderStateRef = useRef('High Start');
@@ -64,11 +31,23 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 		isFirstRenderRef.current = false;
 	}
 
-	console.log('==========>probeRef.current', probeRef.current);
-	console.log('==========>deferredProbe', deferredProbe);
 	const isLowPriority = probeRef.current === deferredProbe && !isFirstRender;
 
+	const addFrame = (value: string, type: TLog) => {
+		const logs = document.getElementById('logs');
+		const span = document.createElement('span');
+
+		span.textContent = value;
+		span.className = `logs__${type}`;
+
+		logs?.appendChild(span);
+	};
+
 	const onLowPriorityStart =  () => {
+		const value = `Low Priority Start - filter: "${filter}" delayedFilter: "${delayedFilter}"`;
+
+		addFrame(value, 'low');
+
 		console.log(
 			`%c Low Priority Start - %cfilter: "${filter}" delayedFilter: "${delayedFilter}"`,
 			'color: teal;',
@@ -76,6 +55,10 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 		);
 	}
 	const onLowPriorityEnd = () => {
+		const value = `Low Priority End - filter: "${filter}" delayedFilter: "${delayedFilter}"`;
+
+		addFrame(value, 'low');
+
 		console.log(
 			`%c Low Priority End - %cfilter: "${filter}" delayedFilter: "${delayedFilter}"`,
 			'color: teal;',
@@ -84,6 +67,10 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 	};
 
 	const	onHighPriorityStart = () => {
+		const value = `High Priority Start - filter: "${filter}" delayedFilter: "${delayedFilter}"`;
+
+		addFrame(value, 'high');
+
 		console.log(
 			`%c High Priority Start - %cfilter: "${filter}" delayedFilter: "${delayedFilter}"`,
 			'color: green;',
@@ -92,19 +79,26 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 	};
 
 	const	onHighPriorityEnd = () => {
+		const value = `High Priority End - filter: "${filter}" delayedFilter: "${delayedFilter}"`;
+
+		addFrame(value, 'high');
+
 		console.log(
 			`%c High Priority End - %cfilter: "${filter}" delayedFilter: "${delayedFilter}"`,
 			'color: green;',
 			'color: white'
 		);
 	};
-	const onLowPriorityInterrupted = () =>
+	const onLowPriorityInterrupted = () => {
+		const value = 'Low Priority Interrupted!';
+
+		addFrame(value, 'interrupted');
+
 		console.log('%c Low Priority Interrupted!', 'color: red');
+	}
 
 	if (isLowPriority) {
-		console.log('==========>111', 111);
 		renderStateRef.current = 'Low Start';
-		// setProebRef({});
 		probeRef.current = Probe.Low;
 		onLowPriorityStart?.();
 	} else {
@@ -114,7 +108,6 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 
 		renderStateRef.current = 'High Start';
 		probeRef.current = Probe.High;
-		// setProebRef({});
 		onHighPriorityStart?.();
 	}
 
@@ -128,9 +121,19 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 		}
 	});
 
-	return (
-		<div className="logs">
+	const onClear = () => {
+		const logs = document.getElementById('logs');
 
+		if (logs) {
+			logs.innerHTML = '';
+		}
+	};
+
+	return (
+		<div className="flex flex__column three-width">
+			<div onClick={onClear}>Clear</div>
+			<div id="logs" className="flex flex__column">
+			</div>
 		</div>
 	);
 };
