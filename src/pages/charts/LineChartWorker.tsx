@@ -23,25 +23,25 @@ ChartJS.register(
 	Legend
 );
 
-
-
-const options = {
-	responsive: true,
-	plugins: {
-		legend: {
-			position: 'top' as const,
-		},
-		title: {
-			display: true,
-			text: 'Chart.js Line Chart',
-		},
-	},
-};
-
 export const LineChartWorker = () => {
 	const { count, type } = useParams<{ count: string, type: string }>();
 	// @ts-ignore
 	const labels = data[count].worker.map((_el, index) => `${index + 1} s`);
+
+	const title = `${count} ${type}`
+
+	const options = {
+		responsive: true,
+		plugins: {
+			legend: {
+				position: 'top' as const,
+			},
+			title: {
+				display: true,
+				text: title,
+			},
+		},
+	};
 
 	const chart = {
 		labels,

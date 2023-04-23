@@ -17,7 +17,7 @@ import { Logs } from '../../widgets/header/Logs';
 import './Players.scss';
 
 export const PlayersList: FC = memo(() => {
-  const { type } = useParams();
+  const { type, isLogs } = useParams();
   const [lowPriorityPlayer, setLowPriorityPlayer] = useState<IPlayer | null>(null);
   const [highPriorityPlayer, setHighPriorityPlayer] = useState<IPlayer | null>(null);
   const [playersArray, setPlayersArray] = useState<IGetPlayers[]>([]);
@@ -56,28 +56,33 @@ export const PlayersList: FC = memo(() => {
     }
   };
 
-  return (
-    <div className="flex max-width">
-      <Logs filter={highPriorityPlayer?.name} delayedFilter={lowPriorityPlayer?.name} />
-      <div className="players-list max-width">
-        <ul className="players-list__menu">
-          {playersArray?.map(({players}) => players.map((player) => {
-            const isSelected = lowPriorityPlayer && lowPriorityPlayer.id === player.id;
+  const title = type === 'sync' ? 'Blocking rendering' : type === 'async' ? 'Async Rendering' : 'Concurrent rendering';
 
-            return (
-              <li key={player.id}>
-                <button
-                  onClick={() => handlePlayerClick(player)}
-                  className={`player-list__player-btn ${
-                    isSelected ? "player-list__player-btn--selected" : ""
-                  }`}>
-                  {player.name}
-                </button>
-              </li>
-            );
-          }))}
-        </ul>
-        {lowPriorityPlayer ? <Statistics id={lowPriorityPlayer.id} /> : <div>Not selected Player</div>}
+  return (
+    <div>
+      <h3>{title}</h3>
+      <div className="flex max-width">
+        {isLogs === 'true' && <Logs filter={highPriorityPlayer?.name} delayedFilter={lowPriorityPlayer?.name} />}
+        <div className="players-list max-width">
+          <ul className="players-list__menu">
+            {playersArray?.map(({players}) => players.map((player) => {
+              const isSelected = lowPriorityPlayer && lowPriorityPlayer.id === player.id;
+
+              return (
+                <li key={player.id}>
+                  <button
+                    onClick={() => handlePlayerClick(player)}
+                    className={`player-list__player-btn ${
+                      isSelected ? "player-list__player-btn--selected" : ""
+                    }`}>
+                    {player.name}
+                  </button>
+                </li>
+              );
+            }))}
+          </ul>
+          {lowPriorityPlayer ? <Statistics id={lowPriorityPlayer.id} /> : <div>Not selected Player</div>}
+        </div>
       </div>
     </div>
   );

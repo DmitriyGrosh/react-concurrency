@@ -15,7 +15,7 @@ import { LineChartWorker } from "../pages/charts/LineChartWorker";
 const PublicRoute: FC<PropsWithChildren> = () => {
     return (
         <>
-            <Header />
+            {/*<Header />*/}
             <main>
                 <Outlet />
             </main>
@@ -50,7 +50,7 @@ export const Router: FC = () => {
                     element: <ConcurrentAutocomplete />
                 },
                 {
-                    path: 'players/:type',
+                    path: 'players/:type/:isLogs',
                     element: <Players />
                 },
                 {
