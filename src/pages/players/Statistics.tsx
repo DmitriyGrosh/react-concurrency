@@ -1,4 +1,4 @@
-import {FC, memo, useEffect, useLayoutEffect, useState} from 'react';
+import {FC, memo, useEffect, useState} from 'react';
 import { IPlayerStatistics } from './interfaces';
 import { getPlayerStatistics } from './resource';
 import { sleep } from '../../lib/sleep';
@@ -21,8 +21,7 @@ export const Statistics: FC<IStatistics> = memo(({ id }) => {
   const [playerStatistics, setPlayerStatistics] = useState<IPlayerStatistics[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useLayoutEffect(() => {
-    console.log('==========>effect', id);
+  useEffect(() => {
     const initData = async () => {
       setIsLoading(true);
       const data = await getPlayerStatistics(id, 2022);
@@ -31,10 +30,10 @@ export const Statistics: FC<IStatistics> = memo(({ id }) => {
     };
 
     initData().finally(() => setIsLoading(false));
-    // addFrame(`use effect statistics ${id}`)
+    addFrame(`use effect statistics ${id}`)
   }, [id]);
 
-  sleep(1000);
+  sleep(1000, id.toString());
 
   if (isLoading) {
     return <div>Loading Statistics...</div>
