@@ -24,8 +24,8 @@ export const ConcurrentRendering: FC = () => {
         });
     };
 
-    sleep(200);
-    console.log('==========>render');
+    // sleep(400, `delayed=${delayedSearch} search=${search}`);
+    console.log('==========>test');
     return (
         <>
             <div>
@@ -33,8 +33,8 @@ export const ConcurrentRendering: FC = () => {
             </div>
             <div className="flex flex__gap-lg">
                 <ul>
-                    {searchArray.map((el) => (
-                        <li>Search - {el}</li>
+                    {searchArray.map((el, index) => (
+                        <li key={index}>Search - {el}</li>
                     ))}
                 </ul>
                 <DelayedList list={delayedSearchArray} />

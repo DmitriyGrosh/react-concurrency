@@ -4,9 +4,13 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { BlockingRendering } from "../pages/blocking-rendering";
 import { ConcurrentRendering } from "../pages/concurrent-rendering";
 import { UrgentNonUrgent } from "../pages/urgent-non-urgent";
+import { BlockingAutocomplete } from "../pages/blocking-autocomplete";
+import { ConcurrentAutocomplete } from "../pages/concurrent-autocomplete";
+import { Players } from "../pages/players";
+
 import { Header } from "../widgets/header";
-import {BlockingAutocomplete} from "../pages/blocking-autocomplete";
-import {ConcurrentAutocomplete} from "../pages/concurrent-autocomplete";
+import {ChartsStat} from "../pages/charts-stat";
+import { LineChartWorker } from "../pages/charts/LineChartWorker";
 
 const PublicRoute: FC<PropsWithChildren> = () => {
     return (
@@ -44,9 +48,26 @@ export const Router: FC = () => {
                 {
                     path: 'concurrent-autocomplete',
                     element: <ConcurrentAutocomplete />
+                },
+                {
+                    path: 'players/:type',
+                    element: <Players />
+                },
+                {
+                    path: 'charts',
+                    element: <ChartsStat />
                 }
             ]
         },
+        {
+            path: '/charts',
+            children: [
+                {
+                    path: ':count/:type',
+                    element: <LineChartWorker />
+                }
+            ]
+        }
     ]);
 
     return (

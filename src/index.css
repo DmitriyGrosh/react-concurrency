@@ -17,6 +17,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --border-color: rgb(219, 219, 219);
+  --accent-color: rgb(3, 102, 214);
+  --border-radius: 0.3rem;
 }
 
 a {

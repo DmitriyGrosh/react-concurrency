@@ -1,4 +1,4 @@
-import { useDeferredValue, useLayoutEffect, useRef } from "react";
+import { useDeferredValue, useLayoutEffect, useRef } from 'react';
 
 type Void = () => void;
 
@@ -10,7 +10,7 @@ type UseDebugConcurrent = {
 	onLowPriorityInterrupted: Void;
 }
 
-export const useDebug = ({ filter, delayedFilter }: { filter: string; delayedFilter: string }) =>
+export const useDebug = ({ filter, delayedFilter }: { filter?: string; delayedFilter?: string }) =>
 	useDebugConcurrent({
 		onLowPriorityStart: () => {
 			console.log(
@@ -44,6 +44,12 @@ export const useDebug = ({ filter, delayedFilter }: { filter: string; delayedFil
 			console.log('%c Low Priority Interrupted!', 'color: red'),
 	});
 
+enum Probe {
+	Start = 'Start',
+	Low = 'Low',
+	High = 'High',
+}
+
 const useDebugConcurrent = ({
 		onLowPriorityStart,
 		onLowPriorityEnd,
@@ -51,7 +57,7 @@ const useDebugConcurrent = ({
 		onHighPriorityEnd,
 		onLowPriorityInterrupted,
 	}: UseDebugConcurrent) => {
-	const probeRef = useRef({});
+	const probeRef = useRef(Probe.Start);
 	const deferredProbe = useDeferredValue(probeRef.current);
 	const renderStateRef = useRef('High Start');
 
@@ -61,11 +67,13 @@ const useDebugConcurrent = ({
 		isFirstRenderRef.current = false;
 	}
 
+	console.log('==========>probeRef.current', probeRef.current);
+	console.log('==========>deferredProbe', deferredProbe);
 	const isLowPriority = probeRef.current === deferredProbe && !isFirstRender;
 
 	if (isLowPriority) {
 		renderStateRef.current = 'Low Start';
-		probeRef.current = {};
+		probeRef.current = Probe.Low;
 		onLowPriorityStart?.();
 	} else {
 		if (renderStateRef.current === 'Low Start') {
@@ -73,11 +81,12 @@ const useDebugConcurrent = ({
 		}
 
 		renderStateRef.current = 'High Start';
-		probeRef.current = {};
+		probeRef.current = Probe.High;
 		onHighPriorityStart?.();
 	}
 
 	useLayoutEffect(() => {
+		console.log('==========>isLowPriority', isLowPriority);
 		if (isLowPriority) {
 			renderStateRef.current = 'Low End';
 			onLowPriorityEnd?.();

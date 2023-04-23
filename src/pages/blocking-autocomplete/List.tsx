@@ -11,7 +11,7 @@ interface IList {
 export const List: FC<IList> = ({ search }) => {
 	const filteredList = list.filter((el) => el.name.toLowerCase().includes(search.toLowerCase()));
 
-	sleep(600);
+	sleep(200);
 
 	return (
 		<ul>

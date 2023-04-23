@@ -1,0 +1,95 @@
+.players-list {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-gap: 1rem
+}
+
+.players-list__menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.player-list__player-btn {
+  display: flex;
+  appearance: none;
+  border: 0;
+  background-color: transparent;
+  font-size: 1rem;
+  padding: 0.5rem 0.25rem;
+  width: 100%;
+  user-select: none;
+}
+
+.player-list__player-btn--selected {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.players-list__stat-heading {
+  margin-top: 0;
+}
+
+.player-list__stat-placeholder {
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.player-stats {
+  padding: 0.25em;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+}
+
+.player-stats__game {
+  margin: 2rem;
+}
+
+.player-stats__game + .player-stats__game {
+  border-top: 1px solid var(--border-color);
+  padding-top: 2em;
+}
+
+.player-stats__game-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.25em;
+}
+
+.player-stats__game-body {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.player-stats__stat-var {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.player-stats__game-header .player-stats__stat-var {
+  font-size: 1em;
+  font-weight: normal;
+  display: flex;
+  align-items: baseline;
+}
+
+.player-stats__stat-label {
+  display: block;
+  font-size: 0.5em;
+  font-weight: normal;
+}
+
+.player-stats__dnp {
+  font-style: italic;
+}
+
+.player-stats__no-games {
+  font-style: italic;
+  text-align: center;
+}

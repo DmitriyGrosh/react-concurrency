@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState, useTransition } from "react";
+import { ChangeEvent, FC, useState, useTransition, useDeferredValue } from "react";
 import { useDebug } from "../../lib/useDebug";
 import { List } from "./List";
 
@@ -22,6 +22,7 @@ export const ConcurrentAutocomplete: FC = () => {
     return (
         <>
             <div><input value={search} onChange={handleChange} /></div>
+            {isPending && "Recalculating..."}
             <List search={delayedSearch} />
         </>
     );

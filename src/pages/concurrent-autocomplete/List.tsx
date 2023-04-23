@@ -11,7 +11,7 @@ interface IList {
 export const List: FC<IList> = memo(({ search }) => {
     const filteredList = list.filter((el) => el.name.toLowerCase().includes(search.toLowerCase()));
 
-    sleep(300);
+    sleep(2000);
 
     return (
         <ul>
