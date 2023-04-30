@@ -27,7 +27,7 @@ const PublicRoute: FC<PropsWithChildren> = () => {
 export const Router: FC = () => {
     const router = createBrowserRouter([
         {
-            path: '/react-concurrency',
+            path: '',
             element: <PublicRoute />,
             children: [
                 {
@@ -73,7 +73,10 @@ export const Router: FC = () => {
                 }
             ]
         }
-    ]);
+    ],
+      {
+          basename: '/react-concurrency'
+      });
 
     return (
         <RouterProvider router={router} />
