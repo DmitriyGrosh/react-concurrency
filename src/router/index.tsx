@@ -27,7 +27,7 @@ const PublicRoute: FC<PropsWithChildren> = () => {
 export const Router: FC = () => {
     const router = createBrowserRouter([
         {
-            path: '/',
+            path: '/react-concurrency',
             element: <PublicRoute />,
             children: [
                 {
