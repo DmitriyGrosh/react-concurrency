@@ -126,6 +126,7 @@ export const Router: FC = () => {
 
     return (
       <Routes>
+          <Route path="*" element={<Header />} />
           {routes.map(({ path, element }) => (
             <Route path={path} element={element} />
           ))}
