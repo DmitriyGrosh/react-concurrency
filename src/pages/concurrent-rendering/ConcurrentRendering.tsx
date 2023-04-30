@@ -1,6 +1,7 @@
 import { FC, useState, ChangeEvent, useTransition } from "react";
 import {DelayedList} from "./DelayedList";
 import {sleep} from "../../lib/sleep";
+import {useDebug} from "../../lib/useDebug";
 
 export const ConcurrentRendering: FC = () => {
     const [search, setSearch] = useState<string>('');
@@ -26,6 +27,7 @@ export const ConcurrentRendering: FC = () => {
 
     // sleep(400, `delayed=${delayedSearch} search=${search}`);
     console.log('==========>test');
+    useDebug({ filter: search, delayedFilter: delayedSearch });
     return (
         <>
             <div>

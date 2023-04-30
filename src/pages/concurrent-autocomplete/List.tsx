@@ -2,6 +2,7 @@ import React, { FC, memo } from 'react';
 
 import { list } from "../../lib/const";
 import { sleep } from "../../lib/sleep";
+import { pendingSleep } from "../../lib/pendingSleep";
 
 interface IList {
     search: string;
@@ -11,7 +12,7 @@ interface IList {
 export const List: FC<IList> = memo(({ search }) => {
     const filteredList = list.filter((el) => el.name.toLowerCase().includes(search.toLowerCase()));
 
-    sleep(2000);
+    pendingSleep(2000);
 
     return (
         <ul>

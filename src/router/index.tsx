@@ -9,8 +9,9 @@ import { ConcurrentAutocomplete } from "../pages/concurrent-autocomplete";
 import { Players } from "../pages/players";
 
 import { Header } from "../widgets/header";
-import {ChartsStat} from "../pages/charts-stat";
-import { LineChartWorker } from "../pages/charts/LineChartWorker";
+import { ChartsStat } from '../pages/charts-stat';
+import { LineChartWorker } from '../pages/charts/LineChartWorker';
+import { DeferredPlayerList } from '../pages/deferred-value/DeferredPlayerList';
 
 const PublicRoute: FC<PropsWithChildren> = () => {
     return (
@@ -56,6 +57,10 @@ export const Router: FC = () => {
                 {
                     path: 'charts',
                     element: <ChartsStat />
+                },
+                {
+                    path: 'deferred',
+                    element: <DeferredPlayerList />
                 }
             ]
         },
