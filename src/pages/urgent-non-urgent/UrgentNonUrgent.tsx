@@ -17,11 +17,16 @@ export const UrgentNonUrgent: FC = () => {
 
     console.log('==========>render.current', render.current);
     return (
-        <div>
-            <p>{count}</p>
-            <button onClick={handleIncrement}>Handle increment</button>
-            <button onClick={handleSame}>Handle same</button>
-            <p>Rerender {render.current}</p>
+        <div
+          className="flex flex__column flex__center-center flex__gap-sm"
+          style={{
+            height: '100%'
+          }}
+        >
+            <p className='h1'>Counter: {count}</p>
+            <button className="button" onClick={handleIncrement}>Handle increment</button>
+            <button className="button" onClick={handleSame}>Handle same</button>
+            <p className='h1'>Rerender: {render.current}</p>
         </div>
     );
 };
