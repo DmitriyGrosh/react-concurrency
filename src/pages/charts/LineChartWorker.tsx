@@ -67,7 +67,7 @@ export const LineChartWorker = () => {
 			</div>
 			<div
 				className="flex flex__center-center p-8"
-				// style={{ height: '100%' }}
+				style={{ height: '80%' }}
 			>
 				<Line  options={options} data={chart} />
 			</div>
