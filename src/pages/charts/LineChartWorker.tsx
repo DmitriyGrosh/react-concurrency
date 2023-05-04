@@ -29,7 +29,7 @@ export const LineChartWorker = () => {
 	const labels = data[count].worker.map((_el, index) => `${index + 1} sec`);
 	const memoryLabels = Array.from(Array(10).keys()).map((el) => `${el} sec`)
 
-	const title = `${count} ${type}`
+	const title = type === 'memory' ? `memory heap при ${count} элементах` : `fps при ${count} элементах`;
 
 	const options = {
 		responsive: true,
