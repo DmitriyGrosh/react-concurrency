@@ -67,11 +67,11 @@ export const LineChartWorker = () => {
 
 	return (
 		<>
-			<div className="flex flex__center-center p-16">
+			<div className="flex flex__center-center p-8">
 				<h1>{title}</h1>
 			</div>
 			<div
-				className="flex flex__center-center p-24"
+				className="flex flex__center-center p-8"
 				// style={{ height: '100%' }}
 			>
 				<Line  options={options} data={chart} />
