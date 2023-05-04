@@ -26,7 +26,8 @@ ChartJS.register(
 export const LineChartWorker = () => {
 	const { count, type } = useParams<{ count: string, type: string }>();
 	// @ts-ignore
-	const labels = data[count].worker.map((_el, index) => `${index + 1} s`);
+	const labels = data[count].worker.map((_el, index) => `${index + 1} sec`);
+	const memoryLabels = Array.from(Array(10).keys()).map((el) => `${el} sec`)
 
 	const title = `${count} ${type}`
 
@@ -44,9 +45,10 @@ export const LineChartWorker = () => {
 	};
 
 	const chart = {
-		labels,
+		labels: type === 'memory' ? memoryLabels : labels,
 		datasets: [
 			{
+				scales: '',
 				label: 'Web Worker',
 				// @ts-ignore
 				data: data[count].worker.map((el) => el[type]),
@@ -63,5 +65,17 @@ export const LineChartWorker = () => {
 		],
 	};
 
-	return <Line options={options} data={chart} />;
+	return (
+		<>
+			<div className="flex flex__center-center p-16">
+				<h1>{title}</h1>
+			</div>
+			<div
+				className="flex flex__center-center p-24"
+				// style={{ height: '100%' }}
+			>
+				<Line  options={options} data={chart} />
+			</div>
+		</>
+	);
 }
