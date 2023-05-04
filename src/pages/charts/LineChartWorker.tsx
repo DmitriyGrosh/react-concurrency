@@ -37,10 +37,6 @@ export const LineChartWorker = () => {
 			legend: {
 				position: 'top' as const,
 			},
-			title: {
-				display: true,
-				text: title,
-			},
 		},
 	};
 
@@ -48,7 +44,6 @@ export const LineChartWorker = () => {
 		labels: type === 'memory' ? memoryLabels : labels,
 		datasets: [
 			{
-				scales: '',
 				label: 'Web Worker',
 				// @ts-ignore
 				data: data[count].worker.map((el) => el[type]),
