@@ -10,6 +10,7 @@ interface IStatistics {
 const addFrame = (value: string) => {
   const logs = document.getElementById('logs');
   const span = document.createElement('span');
+  span.className = 'effect-color';
 
   span.textContent = value;
   // span.className = `logs__${type}`;
@@ -30,7 +31,7 @@ export const Statistics: FC<IStatistics> = memo(({ id }) => {
     };
 
     initData().finally(() => setIsLoading(false));
-    addFrame(`use effect statistics ${id}`)
+    addFrame(`[use effect] statistics ${id}`)
   }, [id]);
 
   sleep(1000, id.toString());

@@ -36,15 +36,18 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 	const addFrame = (value: string, type: TLog) => {
 		const logs = document.getElementById('logs');
 		const span = document.createElement('span');
+		const line = document.createElement('div');
+		line.className = 'line';
 
 		span.innerHTML = value;
 		span.className = `logs__${type}`;
 
 		logs?.appendChild(span);
+		logs?.appendChild(line)
 	};
 
 	const onLowPriorityStart =  () => {
-		const value = `Low Priority Start: </br> player: "${filter}" delayed player: "${delayedFilter}"`;
+		const value = `Low Priority Start: </br> <span class="white">player: <b class="blue">"${filter}"</b> delayed player: <b class="red">"${delayedFilter}"</b></span>`;
 
 		addFrame(value, 'low');
 
@@ -55,7 +58,7 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 		);
 	}
 	const onLowPriorityEnd = () => {
-		const value = `Low Priority End: </br> player: "${filter}" delayed player: "${delayedFilter}"`;
+		const value = `Low Priority End: </br> <span class="white">player: <b class="blue">"${filter}"</b> delayed player: <b class="red">"${delayedFilter}"</b></span>`;
 
 		addFrame(value, 'low');
 
@@ -67,7 +70,7 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 	};
 
 	const	onHighPriorityStart = () => {
-		const value = `High Priority Start: </br> player: "${filter}" delayed player: "${delayedFilter}"`;
+		const value = `High Priority Start: </br> <span class="white">player: <b class="blue">"${filter}"</b> delayed player: <b class="red">"${delayedFilter}"</b></span>`;
 
 		addFrame(value, 'high');
 
@@ -79,7 +82,7 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 	};
 
 	const	onHighPriorityEnd = () => {
-		const value = `High Priority End: </br> player: "${filter}" delayed player: "${delayedFilter}"`;
+		const value = `High Priority End: </br> <span class="white">player: <b class="blue">"${filter}"</b> delayed player: <b class="red">"${delayedFilter}"</b></span>`;
 
 		addFrame(value, 'high');
 
@@ -132,7 +135,7 @@ export const Logs: FC<ILogs> = ({ filter, delayedFilter }) => {
 	return (
 		<div className="flex flex__column three-width p-8">
 			<div onClick={onClear}>Clear</div>
-			<div id="logs" className="flex flex__column">
+			<div id="logs" className="flex flex__column flex__gap-md">
 			</div>
 		</div>
 	);
