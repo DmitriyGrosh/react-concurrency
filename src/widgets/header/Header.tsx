@@ -25,6 +25,9 @@ export const Header: FC = memo(() => {
             <NavLink to="/concurrent-autocomplete">
               Concurrent Autocomplete
             </NavLink>
+            <NavLink to="/players-search">
+              Players Search
+            </NavLink>
         </header>
     );
 })

@@ -19,6 +19,7 @@ import { Header } from "../widgets/header";
 import { ChartsStat } from '../pages/charts-stat';
 import { LineChartWorker } from '../pages/charts/LineChartWorker';
 import { DeferredPlayerList } from '../pages/deferred-value/DeferredPlayerList';
+import { PlayersSearch } from '../pages/players/PlayersSearch';
 
 const PublicRoute: FC<PropsWithChildren> = () => {
     return (
@@ -67,6 +68,10 @@ const routes = [
     {
         path: '/charts/:count/:type',
         element: <LineChartWorker />
+    },
+    {
+        path: '/players-search',
+        element: <PlayersSearch />
     }
 ]
 
